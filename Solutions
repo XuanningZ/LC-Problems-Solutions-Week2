@@ -1,0 +1,42 @@
+#8. String to Integer
+class Solution:
+    def myAtoi(self, s: str) -> int:
+        import re
+        matches = re.match(r'[ ]*([+-]?\d+)',s)
+        if not matches:
+            return 0 
+        ans = int(matches.group(1))
+        return min(max(ans,-2**31),2**31-1)
+
+#424. Longest Repeating Character Replacement
+class Solution:
+    def characterReplacement(self, s: str, k: int) -> int:
+        count = [0] * 26
+        left = 0
+        right = 0
+        retval = 0
+        while right < len(s):
+            count[ord(s[right])-ord('A')] += 1
+            benchmark = max(count)
+            others = sum(count) - benchmark 
+            if others <= k:
+                right += 1 
+                retval = max(retval,right - left)
+            else:
+                count[ord(s[left])-ord('A')] -= 1
+                left += 1
+                right += 1
+        return retval
+
+#336. Palindrome Pairs
+class Solution:
+    def palindromePairs(self, words: List[str]) -> List[List[int]]:
+        n = len(words)
+        ans = list()
+        for i in range(n):
+            for j in range(n):
+                if j != i:
+                    tmp = words[i] + words[j]
+                    if tmp == tmp[::-1]:
+                        ans.append([i,j])
+        return ans
